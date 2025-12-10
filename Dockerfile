@@ -19,7 +19,8 @@ EXPOSE 3000
 # Set NODE_ENV (PORT will be set by Koyeb at runtime)
 ENV NODE_ENV=production
 
-# Use next start with PORT from environment
-# Koyeb sets PORT automatically, so we read it from env
-CMD sh -c "next start -p ${PORT:-3000}"
+# Next.js automatically reads PORT from process.env.PORT
+# Use npm start to ensure proper environment variable handling
+# Koyeb sets PORT automatically, and Next.js will use it
+CMD sh -c "PORT=${PORT:-3000} npm start"
 
