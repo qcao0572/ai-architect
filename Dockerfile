@@ -16,11 +16,12 @@ RUN npm run build
 # Expose port
 EXPOSE 3000
 
-# Set NODE_ENV (PORT will be set by Koyeb at runtime)
+# Set NODE_ENV and HOSTNAME (PORT will be set by Koyeb at runtime)
 ENV NODE_ENV=production
+ENV HOSTNAME=0.0.0.0
 
 # Next.js automatically reads PORT from process.env.PORT
-# Use npm start to ensure proper environment variable handling
+# Explicitly set PORT and HOSTNAME for Next.js to bind correctly
 # Koyeb sets PORT automatically, and Next.js will use it
-CMD sh -c "PORT=${PORT:-3000} npm start"
+CMD sh -c "PORT=${PORT:-3000} HOSTNAME=0.0.0.0 npm start"
 
