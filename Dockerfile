@@ -31,12 +31,14 @@ RUN adduser --system --uid 1001 nextjs
 COPY --from=builder /app/public ./public
 COPY --from=builder /app/.next/standalone ./
 COPY --from=builder /app/.next/static ./.next/static
+# Copy custom server.js that properly handles PORT
+COPY --from=builder /app/server.js ./server.js
 
 USER nextjs
 
 EXPOSE 3000
 
-ENV PORT=3000
 ENV HOSTNAME="0.0.0.0"
 
-CMD ["node", "server.js"]
+# Use shell form to ensure PORT env var is available
+CMD sh -c "node server.js"
