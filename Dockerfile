@@ -31,14 +31,16 @@ RUN adduser --system --uid 1001 nextjs
 COPY --from=builder /app/public ./public
 COPY --from=builder /app/.next/standalone ./
 COPY --from=builder /app/.next/static ./.next/static
-# Copy custom server.js that properly handles PORT
-COPY --from=builder /app/server.js ./server.js
 
 USER nextjs
 
 EXPOSE 3000
 
+# Set PORT and HOSTNAME environment variables
+# Next.js standalone server.js reads PORT from process.env.PORT
+ENV PORT=3000
 ENV HOSTNAME="0.0.0.0"
 
-# Use shell form to ensure PORT env var is available
-CMD sh -c "node server.js"
+# Use shell form to ensure PORT env var expansion works
+# The standalone server.js is in the current directory
+CMD sh -c "PORT=${PORT:-3000} node server.js"
