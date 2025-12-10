@@ -16,24 +16,25 @@ WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
-# Build Next.js app with standalone output
+# Build Next.js app
 RUN npm run build
 
 # Production image, copy all the files and run next
 FROM base AS runner
 WORKDIR /app
 
-ENV NODE_ENV production
+ENV NODE_ENV=production
 
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs
 
-# Copy the standalone output
-COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
-COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
+# Copy necessary files
 COPY --from=builder --chown=nextjs:nodejs /app/public ./public
-# Copy custom server.js that properly reads PORT
+COPY --from=builder --chown=nextjs:nodejs /app/.next ./.next
+COPY --from=builder --chown=nextjs:nodejs /app/node_modules ./node_modules
+COPY --from=builder --chown=nextjs:nodejs /app/package.json ./package.json
 COPY --from=builder --chown=nextjs:nodejs /app/server.js ./server.js
+COPY --from=builder --chown=nextjs:nodejs /app/next.config.ts ./next.config.ts
 
 USER nextjs
 
@@ -41,8 +42,6 @@ USER nextjs
 EXPOSE 3000
 
 # Start application using PORT environment variable
-# Next.js standalone mode creates server.js in the standalone directory
-# The server.js reads PORT from environment variable automatically
-ENV HOSTNAME="0.0.0.0"
+# Use shell form (sh -c) to ensure environment variable expansion
 CMD sh -c "node server.js"
 
