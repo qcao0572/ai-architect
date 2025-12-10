@@ -34,6 +34,7 @@ COPY --from=builder --chown=nextjs:nodejs /app/.next ./.next
 COPY --from=builder --chown=nextjs:nodejs /app/node_modules ./node_modules
 COPY --from=builder --chown=nextjs:nodejs /app/package.json ./package.json
 COPY --from=builder --chown=nextjs:nodejs /app/next.config.ts ./next.config.ts
+COPY --from=builder --chown=nextjs:nodejs /app/tsconfig.json ./tsconfig.json
 COPY --from=builder --chown=nextjs:nodejs /app/app ./app
 
 USER nextjs
@@ -42,7 +43,8 @@ USER nextjs
 EXPOSE 3000
 
 # Start application using PORT environment variable
-# Next.js start command reads PORT from environment automatically
+# Next.js reads PORT from environment automatically, but we can also set it explicitly
 # Use shell form (sh -c) to ensure environment variable expansion
-CMD sh -c "next start -p ${PORT:-3000}"
+ENV PORT=3000
+CMD sh -c "PORT=${PORT:-3000} next start"
 
