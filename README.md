@@ -1,36 +1,78 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# AI Chat - ChatGPT Clone
+
+A beautiful ChatGPT-like interface built with Next.js, TypeScript, and Tailwind CSS. This application allows you to chat with AI models using the AI Builder's API, specifically configured to use the Grok-4-fast model.
+
+## Features
+
+- 🎨 **ChatGPT-like UI**: Clean, modern interface with a sidebar for conversations and a main chat area
+- 💬 **Multiple Conversations**: Create, manage, and switch between multiple chat conversations
+- 💾 **Local Storage**: Conversations are automatically saved to your browser's local storage
+- 🤖 **AI Integration**: Powered by AI Builder's API with Grok-4-fast model
+- ⚡ **Real-time Chat**: Send messages and receive AI responses in real-time
+- 🎯 **Auto-titling**: Conversations are automatically titled based on the first message
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
 
+- Node.js 18+ installed
+- AI Builder API token (already configured in `.env.local`)
+
+### Installation
+
+1. Install dependencies:
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. The `.env.local` file is already configured with your AI Builder token.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+3. Run the development server:
+```bash
+npm run dev
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+4. Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-## Learn More
+## Usage
 
-To learn more about Next.js, take a look at the following resources:
+1. **Start a New Chat**: Click the "New chat" button in the sidebar
+2. **Send Messages**: Type your message in the input field and press Enter or click Send
+3. **Switch Conversations**: Click on any conversation in the sidebar to switch between chats
+4. **Delete Conversations**: Hover over a conversation and click the trash icon to delete it
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Project Structure
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```
+app/
+  ├── api/
+  │   └── chat/
+  │       └── route.ts          # API route for chat completions
+  ├── components/
+  │   ├── Sidebar.tsx           # Left sidebar with conversations list
+  │   └── ChatInterface.tsx     # Main chat interface
+  ├── types/
+  │   └── index.ts              # TypeScript type definitions
+  ├── layout.tsx                # Root layout
+  ├── page.tsx                  # Main page component
+  └── globals.css               # Global styles
+```
 
-## Deploy on Vercel
+## API Configuration
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+The application uses the AI Builder's API with the following configuration:
+- **Base URL**: `https://space.ai-builders.com/backend/v1`
+- **Model**: `grok-4-fast`
+- **Authentication**: Bearer token via `AI_BUILDER_TOKEN` environment variable
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Technologies Used
+
+- **Next.js 16**: React framework with App Router
+- **TypeScript**: Type-safe development
+- **Tailwind CSS**: Utility-first CSS framework
+- **OpenAI SDK**: For API communication (OpenAI-compatible)
+- **Lucide React**: Icon library
+
+## License
+
+MIT
